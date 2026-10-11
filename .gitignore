@@ -1,0 +1,14 @@
+node_modules/
+release/
+dist/
+.npm-cache/
+*.log
+
+# Données personnelles du journal : jamais dans le dépôt
+data/trades.json
+data/*.csv
+data/*.zip
+build/logo.png
+build/logo-redraw-white.png
+.claude/
+.impeccable/
