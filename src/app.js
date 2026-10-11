@@ -154,9 +154,10 @@
     $('#tier').textContent = score == null ? 'EN ATTENTE' : M.TIER_LABEL[tier];
     $('#tierSub').textContent = TIER_SUB[tier];
     $('#gauge').dataset.tier = tier;
-    $('#gaugeFill').style.width = (score == null ? 0 : score) + '%';
+    const p = score == null ? 0 : score / 100;
+    $('#gaugeFill').style.setProperty('--p', String(p));
     const mk = $('#gaugeMark');
-    mk.style.left = (score == null ? 0 : score) + '%';
+    mk.style.setProperty('--p', String(p));
     mk.style.display = score == null ? 'none' : 'block';
 
     const conf = confidence(res.parts, ex);

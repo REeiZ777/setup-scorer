@@ -69,11 +69,12 @@ h2 { margin: 0 0 8px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
 .zone.weak { left: 0; width: 40%; background: var(--weak); border-radius: 6px 0 0 6px; }
 .zone.mid { left: 40%; width: 25%; background: var(--mid); }
 .zone.strong { left: 65%; width: 35%; background: var(--strong); border-radius: 0 6px 6px 0; }
-.fill { position: absolute; inset: 0 auto 0 0; width: 0; border-radius: 6px; background: var(--fg-400); transition: width 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.2s; }
+.fill { position: absolute; inset: 0; border-radius: 6px; background: var(--fg-400); transform-origin: 0 50%; transform: scaleX(var(--p, 0)); transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.2s; }
 .gauge[data-tier="strong"] .fill { background: var(--strong); box-shadow: 0 0 14px rgb(63 191 111 / 0.55); }
 .gauge[data-tier="mid"] .fill { background: var(--mid); box-shadow: 0 0 14px rgb(217 161 58 / 0.5); }
 .gauge[data-tier="weak"] .fill { background: var(--weak); box-shadow: 0 0 14px rgb(228 87 92 / 0.5); }
-.mark { position: absolute; top: -5px; bottom: -5px; width: 2px; margin-left: -1px; background: #fff; border-radius: 1px; transition: left 0.28s cubic-bezier(0.2, 0.8, 0.2, 1); display: none; }
+/* Le repère occupe toute la largeur de la jauge et dessine son trait sur son bord droit : translateX en % le place sans toucher à la mise en page. */
+.mark { position: absolute; top: -5px; bottom: -5px; left: 0; width: 100%; background: linear-gradient(#fff, #fff) right / 2px 100% no-repeat; transform: translateX(calc(var(--p, 0) * 100% - 100% + 1px)); transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1); display: none; pointer-events: none; }
 .scale { position: relative; height: 14px; margin-top: 5px; font-size: 10px; color: var(--fg-400); font-variant-numeric: tabular-nums; }
 .scale span { position: absolute; transform: translateX(-50%); }
 .scale span:first-child { left: 0; transform: none; }
@@ -185,11 +186,12 @@ select option { background: var(--ink-800); color: var(--fg-100); }
 .btn.danger { color: var(--weak); }
 
 /* fiabilité et données */
-.rel { padding: 8px 10px; border-left: 3px solid var(--ink-600); background: rgb(255 255 255 / 0.04); border-radius: 0 var(--r-ctl) var(--r-ctl) 0; font-size: 12px; line-height: 1.5; margin-bottom: 10px; }
-.rel[data-level="low"] { border-left-color: var(--weak); }
-.rel[data-level="mid"] { border-left-color: var(--mid); }
-.rel[data-level="good"] { border-left-color: var(--strong); }
-.rel b { display: block; font-size: 12.5px; margin-bottom: 2px; }
+.rel { --lvl: var(--fg-400); padding: 8px 10px; border: 1px solid var(--line); background: rgb(255 255 255 / 0.04); border-radius: var(--r-ctl); font-size: 12px; line-height: 1.5; margin-bottom: 10px; }
+.rel[data-level="low"] { --lvl: var(--weak); }
+.rel[data-level="mid"] { --lvl: var(--mid); }
+.rel[data-level="good"] { --lvl: var(--strong); }
+.rel b { display: flex; align-items: center; gap: 7px; font-size: 12.5px; margin-bottom: 2px; }
+.rel b::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--lvl); box-shadow: 0 0 8px var(--lvl); flex: none; }
 .rel em { display: block; margin-top: 4px; font-style: normal; font-size: 11px; color: var(--fg-400); }
 .row2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 .dataline { margin-top: 10px; font-size: 11.5px; color: var(--fg-300); }
